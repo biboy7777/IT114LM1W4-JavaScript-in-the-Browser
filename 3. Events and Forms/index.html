@@ -31,17 +31,29 @@
 <!-- Add an inline event handler that logs "From inline event hanlder" when the button is clicked -->
 <!-- Resource: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#inline_event_handlers_%E2%80%94_dont_use_these
             - See other event listener mechanisms section -->
-<button>Call inline event handler</button>
+<button onclick="inlineEventHandler()">Call inline event handler</button>
+<script>
+    function inlineEventHandler() 
+    {
+        console.log("From inline event handler");
+    }
+</script>
 
 <!-- Todo 3.3a Create a button with the text "Call addEventListener" -->
-<button>Call addEventListener</button>
+<button id="addEventListenerBtn" >Call addEventListener</button>
 
 <!-- Todo 3.4a Create a form that accepts the first name and last name of the user -->
 <form>
+    <label for="firstName">First Name:</label>
     <input type="text" name="firstName" id="firstName">
+
+    <label for="lastName">Last Name:</label>
     <input type="text" name="lastName" id="lastName">
+
     <button id="submit-btn">Submit</button>
 </form>
+
+
 
 <script>
     const results = {}
@@ -57,6 +69,10 @@
             lastName: lastNameInput.value,
         })
         // post to server
+        results.firstName = firstNameInput.value;
+        results.lastName = lastNameInput.value;
+
+        console.log(results, "test");
     })
 </script>
 
@@ -76,14 +92,24 @@
     <script>
         // Todo 3.1 When the page has loaded, log "The page has loaded"
         // Resource: https://developer.mozilla.org/en-US/docs/Web/API/Window/load_event
+        window.addEventListener("load", (event) => 
+        {
+            console.log("The page has loaded");
+        });
 
         // Todo 3.3b Add an event handler for the button created in 2.3a.
         //          The event handler should log "From addEventListener" when the button is clicked
         // Resource: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#using_addeventlistener
         //          - See Using addEventListener() section
+        document.getElementById('addEventListenerBtn').addEventListener('click', function () 
+        {
+        console.log('From addEventListener');
+        });
 
         // Checkpoint 3.1 What is the difference between inline event handlers and addEventListener? When should you use one over the other?
-        // Answer: 
+        // Answer: Inline event handlers are implemented directly within the HTML element's attributes, it is usually simple and easy to use
+        //addEventListener allows for multiple functions to the same event, making it be able to provide more control over event handling.
+        //Based on my understanding, you should only use inline event handlers for simple cases/projects and use addEventListener for larger projects as it is more versatile and flexible.
         
         // Todo 3.5 add event listenders for the grandparent, parent, and child divs. 
         //          When clicked, the grandparent, parent, and child should log "Grandparent", "Parent", and "Child" respectively
@@ -92,8 +118,25 @@
         const parent = document.querySelector(".parent")
         const child = document.querySelector(".child")
 
+        grandparent.addEventListener("click", e => 
+        {
+            console.log("Grandparent")
+        })
+
+        parent.addEventListener("click", e => 
+        {
+            console.log("Parent")
+        })
+
+        child.addEventListener("click", e => 
+        {
+            console.log("Child")
+        })
+
         // Checkpoint 3.2 What is event bubbling? How was it shown in Todo 3.5?
-        // Answer: 
+        // Answer: Event bubbling is aphase in the event propagation process in the DOM, where an event starts from the target element that triggered it and "bubbles" up through its ancestors in the
+        //DOM hierarchy. In the code above, you can see how event bubbling works by clicking on certain elements that can log message/s to the console depending on what element you clicked. If you were to click the child element
+        //it will log the messages "Child", "Parent", and "Child". If you clicked the parent element, it will log the messages "Parent" and "Grandparent".
         
         // Bonus Todo 3.6 Change your code in the previous todo such that "grandparent" is displayed first
 
